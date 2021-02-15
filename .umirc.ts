@@ -6,6 +6,8 @@ export default defineConfig({
   },
   routes: [
     { path: '/', component: '@/pages/index' },
+    { path: '/user', component: '@/pages/User' },
+    { path: '/count', component: '@/pages/counter/count' },
   ],
   fastRefresh: {},
 });
