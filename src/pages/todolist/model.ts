@@ -9,11 +9,11 @@ export interface IModel {
   namespace: string,
   state: IState,
   effects: {
-    plus: Effect;
+    add: Effect;
     minus: Effect;
   };
   reducers: {
-    plusOne:Reducer<IState>;
+    AddTask:Reducer<IState>;
     minusOne: Reducer<IState>;
     save: Reducer<IState>;
     set: Reducer<IState>;
@@ -31,9 +31,9 @@ const Model : IModel = {
   },
 
   effects: {
-    * plus(_, {call, put}) {
+    * add(_, {call, put}) {
       yield put({
-        type: 'plusOne',
+        type: 'addTask',
       });
     },
   },
@@ -57,7 +57,7 @@ const Model : IModel = {
     plusOne(state: any, {payload}: any) {
       return {
         ...state,
-        digit: state.digit + 1,
+
       };
     },
 
