@@ -3,24 +3,29 @@ import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import { Input } from 'antd';
 import styles from '../todolist/todoList.less';
-import {useState} from "react";
+import React,{useState} from "react";
+
+
 
 function listPage(props) {
-  const [taski, setTaski] = useState('');
+  const [taskos, setTaskos] = useState('');
+
+  const createTask = (taskos: any) => {
+    let data = taskos;
+    props.addTask(data)
+  }
+
 
   return (
     <div className={styles.list}>
       <ul className={styles.typeList}>
         <div className={styles.inputAdd}>
-          <Input placeholder="Pleas enter text" />
-          <Button className={styles.addTask}>Add Task</Button>
+          <Input placeholder="Pleas enter text" value={taskos} onChange={e => setTaskos(e.target.value)}/>
+          <Button className={styles.addTask} onClick={createTask}>Add Task</Button>
         </div>
       {
 
         props.task.map(el => <li key={el.id}>{el.title}
-          <Button className={styles.deleteTask} type="primary" danger>
-            Delete
-          </Button>
         </li>)
       }
       </ul>
@@ -32,5 +37,9 @@ const mapStateToProps = (state: any) => ({
   task: state.Task.todo
 })
 
+const mapDispatchToProps = (dispatch: any) => ({
+  addTask: (payload: {data: any}) => dispatch({type: 'Task/add'}, payload),
+});
 
-export default connect(mapStateToProps)(listPage);
+
+export default connect(mapStateToProps,mapDispatchToProps)(listPage);

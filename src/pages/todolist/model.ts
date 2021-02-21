@@ -2,7 +2,8 @@ import {Effect, Reducer} from 'umi';
 
 
 export interface IState {
-  count: number,
+  todo: any,
+  tas: any,
 }
 
 export interface IModel {
@@ -10,67 +11,40 @@ export interface IModel {
   state: IState,
   effects: {
     add: Effect;
-    minus: Effect;
   };
   reducers: {
-    AddTask:Reducer<IState>;
-    minusOne: Reducer<IState>;
-    save: Reducer<IState>;
-    set: Reducer<IState>;
+    create: Reducer<IState>;
   };
 }
+
+
 
 const Model : IModel = {
   namespace: 'Task',
   state: {
     todo: [
-      {title: 'One step by step', done: true, id: Math.random()},
-      {title: 'Just do it', done: false, id: Math.random()},
-      {title: 'Chicken popkorn', done: true, id: Math.random()},
+      {title: 'One step by step', id: Math.random()},
+      {title: 'Just do it', id: Math.random()},
+      {title: 'Chicken popkorn', id: Math.random()},
     ],
+    tas: [],
   },
 
   effects: {
-    * add(_, {call, put}) {
-      yield put({
-        type: 'addTask',
-      });
+    *add(_, { call, put }) {
+      yield put({type: 'create'})
     },
-  },
-
-  effects: {
-    * minus(_, {call, put}) {
-      yield put({
-        type: 'minusOne',
-      });
     },
-  },
 
   reducers: {
-    minusOne(state: any, {payload}: any) {
+    create(state: any, { payload }: any) {
+      const newTask = [...state.tas]
+      newTask.push({title: payload, id: Math.random()})
+      console.log(payload)
       return {
         ...state,
-        digit: state.digit - 1,
+        tas: newTask
       };
-    },
-
-    plusOne(state: any, {payload}: any) {
-      return {
-        ...state,
-
-      };
-    },
-
-
-    save(state: any, {payload}: any) {
-      return {
-        ...state,
-        ...payload,
-      };
-    },
-
-    set(state:any, {payload}: any) {
-      return payload
     },
   },
 };
